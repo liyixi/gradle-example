@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+}
+
+group 'org.gradle.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// Task 1
+tasks.register('hello') {
+    doLast {
+        println 'Hello world'
+    }
+}
+
+// Task 2
+tasks.register("upper") {
+    String someString = 'Test String'
+    println "Original: $someString"
+    println "Upper Case : ${someString.toUpperCase()}"
+}
+
+// Task 3
+tasks.register("count") {
+    doLast {
+        4.times {println "$it" }
+    }
+}
