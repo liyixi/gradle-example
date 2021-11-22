@@ -1,0 +1,5 @@
+// 定义版本信息
+allprojects {
+    group 'org.gradle.example'
+    version '1.0-SNAPSHOT'
+}

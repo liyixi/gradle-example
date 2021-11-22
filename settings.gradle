@@ -3,3 +3,7 @@ include 'hello-world'
 include 'task-example'
 include 'config-build-dependencies'
 
+include 'dependence-manager-example:app-example'
+include 'dependence-manager-example:services'
+include 'dependence-manager-example:shared'
+

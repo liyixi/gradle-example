@@ -1,7 +1,3 @@
-// 版本信息
-group 'org.gradle.example'
-version '1.0-SNAPSHOT'
-
 repositories {
     mavenCentral()
 }
@@ -16,7 +12,7 @@ tasks.register("upper") {
 // Task 2 一个简单的循环
 tasks.register("count") {
     doLast {
-        4.times {println "$it" }
+        4.times { println "$it" }
     }
 }
 
@@ -31,7 +27,7 @@ tasks.register("testDepend") {
 // Task 4 延迟依赖任务，即依赖的任务在该任务定义之后
 tasks.register("taskX") {
     dependsOn 'taskY'
-    doLast{
+    doLast {
         println 'taskX'
     }
 }
@@ -54,7 +50,7 @@ tasks.register("taskY") {
 
 // Task 6 通过API实现运行时动态操作已注册的任务
 // 示例1：修改任务依赖
-tasks.named("task0") {dependsOn('task2', 'task3')}
+tasks.named("task0") { dependsOn('task2', 'task3') }
 // 示例2：添加任务行为, "doLast" , "doFirst" 对应行为的添加位置，分别为开头和结尾处
 tasks.named("task1") {
     doLast {
@@ -68,11 +64,11 @@ tasks.named("task1") {
 }
 
 // Task 7: 使用"AntBuilder" 执行 ant.loadfile 目的
-tasks.register("loadfile"){
+tasks.register("loadfile") {
     doLast {
         def files = file('./antLoadfileResource').listFiles().sort()
-        files.each { File file->
-            if(file.isFile()){
+        files.each { File file ->
+            if (file.isFile()) {
                 ant.loadfile("srcFile": file, "property": file.name)
                 println "*** $file.name ***"
                 println "${ant.properties[file.name]}"
@@ -82,8 +78,8 @@ tasks.register("loadfile"){
 }
 
 // Task 8: 创建一个构件方法
-File[] fileList(String dir){
-    file(dir).listFiles({file -> file.isFile()} as FileFilter).sort()
+File[] fileList(String dir) {
+    file(dir).listFiles({ file -> file.isFile() } as FileFilter).sort()
 }
 
 tasks.register("checksum") {

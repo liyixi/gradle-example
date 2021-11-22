@@ -3,8 +3,8 @@ plugins {
 }
 
 // 版本信息
-group 'org.gradle.example'
-version '1.0-SNAPSHOT'
+//group 'org.gradle.example'
+//version '1.0-SNAPSHOT'
 
 // 依赖库
 repositories {
