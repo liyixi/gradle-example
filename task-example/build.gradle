@@ -1,0 +1,116 @@
+// 版本信息
+group 'org.gradle.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+// Task 1
+tasks.register("upper") {
+    String someString = 'Test String'
+    println "Original: $someString"
+    println "Upper Case : ${someString.toUpperCase()}"
+}
+
+// Task 2 一个简单的循环
+tasks.register("count") {
+    doLast {
+        4.times {println "$it" }
+    }
+}
+
+// Task 3 "需要前置任务的任务"
+tasks.register("testDepend") {
+    dependsOn tasks.upper
+    doLast {
+        println "I'm gradle task depend on 'hello'"
+    }
+}
+
+// Task 4 延迟依赖任务，即依赖的任务在该任务定义之后
+tasks.register("taskX") {
+    dependsOn 'taskY'
+    doLast{
+        println 'taskX'
+    }
+}
+
+tasks.register("taskY") {
+    doLast {
+        println 'taskY'
+    }
+}
+
+// Task 5 在循环中定义多个相同类型的任务
+4.times {
+    counter ->
+        tasks.register("task$counter") {
+            doLast {
+                println "I'm task number $counter"
+            }
+        }
+}
+
+// Task 6 通过API实现运行时动态操作已注册的任务
+// 示例1：修改任务依赖
+tasks.named("task0") {dependsOn('task2', 'task3')}
+// 示例2：添加任务行为, "doLast" , "doFirst" 对应行为的添加位置，分别为开头和结尾处
+tasks.named("task1") {
+    doLast {
+        println "add a behaviour at runtime"
+    }
+}
+tasks.named("task1") {
+    doFirst {
+        println "do First"
+    }
+}
+
+// Task 7: 使用"AntBuilder" 执行 ant.loadfile 目的
+tasks.register("loadfile"){
+    doLast {
+        def files = file('./antLoadfileResource').listFiles().sort()
+        files.each { File file->
+            if(file.isFile()){
+                ant.loadfile("srcFile": file, "property": file.name)
+                println "*** $file.name ***"
+                println "${ant.properties[file.name]}"
+            }
+        }
+    }
+}
+
+// Task 8: 创建一个构件方法
+File[] fileList(String dir){
+    file(dir).listFiles({file -> file.isFile()} as FileFilter).sort()
+}
+
+tasks.register("checksum") {
+    doLast {
+        fileList('./antLoadfileResource').each(file -> {
+            ant.checksum(file: file, property: "cs_$file.name")
+            println "$file.name Checksum: ${ant.properties["cs_$file.name"]}"
+        })
+    }
+}
+
+// Task 9: 配置默认任务，允许指定一个或多个，当特别指定要运行的任务时，默认认为将被执行
+// 注意：必须在当前模块的目录下执行 gradle -q
+defaultTasks 'clean', 'run'
+
+tasks.register('clean') {
+    doLast {
+        println 'Default Cleaning!'
+    }
+}
+tasks.register('run') {
+    doLast {
+        println 'Default Running!'
+    }
+}
+tasks.register('other') {
+    doLast {
+        println "I'm not a default task!"
+    }
+}

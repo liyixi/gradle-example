@@ -1,0 +1,27 @@
+import org.apache.commons.codec.binary.Base64
+
+// 配置 Build 依赖，类似于扩展java 的classpath
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'commons-codec:commons-codec:1.8'
+        classpath 'org.apache.commons:commons-lang3:3.4'
+    }
+}
+
+group 'org.gradle.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+tasks.register("encode") {
+    doLast {
+        def byte[] encodedString = new Base64().encode('hello world'.getBytes())
+        println new String(encodedString)
+    }
+}

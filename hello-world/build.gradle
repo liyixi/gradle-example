@@ -1,40 +1,25 @@
+// 声明使用的插件，插件可以分为内嵌插件和社区
 plugins {
-    id 'java'
 }
 
+// 版本信息
 group 'org.gradle.example'
 version '1.0-SNAPSHOT'
 
+// 依赖库
 repositories {
     mavenCentral()
 }
 
+// 项目依赖
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }
 
-test {
-    useJUnitPlatform()
-}
 
+// 构件任务配置
 // Task 1
 tasks.register('hello') {
     doLast {
         println 'Hello world'
-    }
-}
-
-// Task 2
-tasks.register("upper") {
-    String someString = 'Test String'
-    println "Original: $someString"
-    println "Upper Case : ${someString.toUpperCase()}"
-}
-
-// Task 3
-tasks.register("count") {
-    doLast {
-        4.times {println "$it" }
     }
 }

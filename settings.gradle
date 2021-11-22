@@ -1,3 +1,5 @@
 rootProject.name = 'gradle-example'
 include 'hello-world'
+include 'task-example'
+include 'config-build-dependencies'
 
